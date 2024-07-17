@@ -1,0 +1,12 @@
+{
+	"root": true,
+	"extends": [
+		"wikimedia/client-es5",
+		"wikimedia/mediawiki",
+		"wikimedia/jquery"
+	],
+	"rules": {
+		"camelcase": "off",
+		"no-jquery/no-global-selector": "warn"
+	}
+}

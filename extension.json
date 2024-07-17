@@ -1,0 +1,122 @@
+{
+	"name": "UserVerification",
+	"author": "thomas-topway-it",
+	"version": "1.0",
+	"url": "https://www.mediawiki.org/wiki/Extension:UserVerification",
+	"descriptionmsg": "userverification-extension-desc",
+	"license-name": "GPL-2.0-or-later",
+	"requires": {
+		"MediaWiki": ">= 1.35.0"
+	},
+	"MessagesDirs": {
+		"UserVerification": [
+			"i18n"
+		]
+	},
+	"callback": "UserVerificationHooks::initExtension",
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\UserVerification\\": "includes/classes",
+		"MediaWiki\\Extension\\UserVerification\\Pagers\\": "includes/specials/pagers/"
+	},
+	"AutoloadClasses": {
+		"UserVerificationHooks": "includes/UserVerificationHooks.php",
+		"UserVerification": "includes/UserVerification.php",
+		"SpecialUserVerification": "includes/specials/SpecialUserVerification.php",
+		"SpecialUserVerificationList": "includes/specials/SpecialUserVerificationList.php",
+		"UserVerificationApiCheckLatestVersion": "includes/api/UserVerificationApiCheckLatestVersion.php"
+	},
+	"GroupPermissions": {
+		"sysop": {
+			"userverification-can-manage-verification": true
+		},
+		"bureaucrat": {
+			"userverification-can-manage-verification": true
+		},
+		"userverification-admin": {
+			"userverification-can-manage-verification": true
+		},
+		"userverification-require-verification": {},
+		"userverification-do-not-require-verification": {}
+	},
+	"AddGroups": {
+		"userverification-admin": [
+			"userverification-admin",
+			"userverification-require-verification",
+			"userverification-do-not-require-verification"
+			
+		]
+	},
+	"RemoveGroups": {
+		"userverification-admin": [
+			"userverification-admin",
+			"userverification-require-verification",
+			"userverification-do-not-require-verification"
+		]
+	},
+	"AvailableRights": [
+		"userverification-can-manage-verification"
+	],
+	"ExtensionMessagesFiles": {
+		"UserVerificationAlias": "UserVerification.alias.php",
+		"UserVerificationMagic": "UserVerificationMagic.i18n.magic.php"
+	},
+	"Hooks": {
+		"BeforeInitialize": "UserVerificationHooks::onBeforeInitialize",
+		"ParserFirstCallInit": "UserVerificationHooks::onParserFirstCallInit",
+		"AlternateUserMailer": "UserVerificationHooks::onAlternateUserMailer",
+		"UserLoginComplete": "UserVerificationHooks::onUserLoginComplete",
+		"UserLogoutComplete": "UserVerificationHooks::onUserLogoutComplete",
+		"getUserPermissionsErrors": "UserVerificationHooks::onGetUserPermissionsErrors",
+		"LoadExtensionSchemaUpdates": "UserVerificationHooks::onLoadExtensionSchemaUpdates"
+	},
+	"ConfigRegistry": {
+	},
+	"SpecialPages": {
+		"UserVerification": "SpecialUserVerification",
+		"UserVerificationList": "SpecialUserVerificationList"
+	},
+	"APIModules": {
+		"userverification-check-latest-version": "UserVerificationApiCheckLatestVersion"
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "UserVerification/resources"
+	},
+	"ResourceModules": {
+		"ext.UserVerification": {
+			"position": "top",
+			"scripts": [
+				"UserVerification.js",
+				"VersionCheck.js"
+			],
+			"styles": [
+				"style.css"
+			],
+			"dependencies": [
+				"oojs-ui-core",
+				"oojs-ui-widgets",
+				"oojs-ui.styles.icons-layout",
+				"oojs-ui.styles.icons-moderation",
+				"oojs-ui.styles.icons-accessibility"
+			],
+			"messages": [
+				"userverification-jsmodule-outdated-version"
+			]
+		}
+	},
+	"config": {
+		"UserVerificationEmailConfirmToEdit": {
+			"value": true
+		},
+		"UserVerificationRequireUserVerifiedActions": {
+			"value": []
+		},
+		"UserVerificationUploadDir": {
+			"value": "{$IP}/../MWUploads/UserVerification"
+		},
+		"UserVerificationDisableVersionCheck": {
+			"value": false
+		}
+	},
+	"manifest_version": 2
+}

@@ -32,8 +32,6 @@ if ( is_readable( __DIR__ . '/../vendor/autoload.php' ) ) {
 	include_once __DIR__ . '/../vendor/autoload.php';
 }
 
-use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Key;
 use Defuse\Crypto\KeyProtectedByPassword;
 
 class CreateKeys extends Maintenance {
@@ -72,7 +70,7 @@ class CreateKeys extends Maintenance {
 		if ( empty( $password ) ) {
 			return 'no password';
 		}
-		
+
 		$passwordValidator = new PasswordValidator();
 		$errors = $passwordValidator->checkPassword( $password );
 		$conf = $passwordValidator->getConf();
@@ -120,7 +118,12 @@ class CreateKeys extends Maintenance {
 
 		echo 'keys created' . PHP_EOL;
 	}
-	
+
+	/**
+	 * @param array $conf
+	 * @param array $errors
+	 * @return array
+	 */
 	private function showMessageError( $conf, $errors ) {
 		$errorsMessages = [];
 

@@ -21,12 +21,6 @@
  * @author thomas-topway-it <support@topway.it>
  * @copyright Copyright ©2024, https://wikisphere.org
  */
- 
-use MediaWiki\Extension\UserVerification\CreateAccount;
-
-use MediaWiki\Auth\AuthManager;
-use MediaWiki\Logger\LoggerFactory;
-use MediaWiki\MainConfigNames;
 
 include_once __DIR__ . '/Countries.php';
 
@@ -96,7 +90,7 @@ class SpecialUserVerification extends SpecialPage {
 
 		$out->addHTML( Html::Element( 'h3', [], $this->user->getName() ) );
 
-		if ( !$row || $row->status !== 'pending' ) {	
+		if ( !$row || $row->status !== 'pending' ) {
 			$out->addHTML( $this->userVerificationForm( $request, $data ) );
 
 		} else {
@@ -116,12 +110,14 @@ class SpecialUserVerification extends SpecialPage {
 	 * @return string
 	 */
 	protected function userVerificationForm( $request, $data ) {
+		// phpcs:ignore MediaWiki.NamingConventions.ValidGlobalName.allowedPrefix, MediaWiki.Usage.ExtendClassUsage.FunctionConfigUsage
 		global $Countries;
+
 		$countries = [
 			// &nbsp;
 			' ' => ''
 		];
-		$countries += array_flip( $Countries );
+		$countries += array_flip( (array)$Countries );
 
 		$formDescriptor = [];
 
@@ -283,7 +279,7 @@ class SpecialUserVerification extends SpecialPage {
 				[ 'return' => $request->getVal( 'return' ) ]
 			)
 		);
-		
+
 		$htmlForm->setMethod( 'post' );
 		$htmlForm->setSubmitCallback( [ $this, 'onSubmit' ] );
 
@@ -302,7 +298,6 @@ class SpecialUserVerification extends SpecialPage {
 
 	/**
 	 * @param array $data
-	 * @param HTMLForm $htmlForm
 	 * @return bool
 	 */
 	public function onSubmit( $data ) {
@@ -312,7 +307,7 @@ class SpecialUserVerification extends SpecialPage {
 			$ret[$key] = [
 				$this->formDescriptor[$key]['type'],
 				$value,
-			];				
+			];
 		}
 
 		\UserVerification::setVerificationData( $this->user, $ret );

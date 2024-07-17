@@ -31,7 +31,6 @@ use MediaWiki\SpecialPage\SpecialPage;
 use MWException;
 use ParserOutput;
 use TablePager;
-use Title;
 
 class UserPager extends TablePager {
 
@@ -135,7 +134,7 @@ class UserPager extends TablePager {
 
 			case 'user_registration':
 			case 'user_email_authenticated':
-				$date = ((array)$row)[$field];
+				$date = ( (array)$row )[$field];
 				if ( $date ) {
 					$formatted = htmlspecialchars(
 						$this->getLanguage()->userDate(
@@ -152,7 +151,7 @@ class UserPager extends TablePager {
 			case 'user_email_authenticated':
 			case 'user_registration':
 			case 'user_editcount':
-				$formatted = ((array)$row)[$field];
+				$formatted = ( (array)$row )[$field];
 				break;
 
 			case 'actions':
@@ -176,7 +175,8 @@ class UserPager extends TablePager {
 		$dbr = \UserVerification::getDB( DB_REPLICA );
 		$conds = [];
 		$join_conds = [];
-		$join_conds[$dbr->tableName( 'userverification_verification' ) . ' as userverification'] = [ 'LEFT JOIN', 'user.user_id=userverification.user_id' ];
+		$join_conds[$dbr->tableName( 'userverification_verification' ) . ' as userverification'] =
+			[ 'LEFT JOIN', 'user.user_id=userverification.user_id' ];
 		$options = [];
 		$tables = [ $dbr->tableName( 'user' ) . ' as user', $dbr->tableName( 'userverification_verification' ) . ' as userverification' ];
 		$fields = [ 'user.*', 'userverification.status', 'userverification.method' ];
@@ -192,7 +192,7 @@ class UserPager extends TablePager {
 
 		$status = $this->request->getVal( 'status' );
 		if ( !empty( $status ) ) {
-			$conds[ 'status' ] = $status !== 'none' ? $status : NULL;
+			$conds[ 'status' ] = $status !== 'none' ? $status : null;
 		}
 
 		$ret['tables'] = $tables;

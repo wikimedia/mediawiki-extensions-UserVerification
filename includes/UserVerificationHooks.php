@@ -68,7 +68,7 @@ class UserVerificationHooks {
 		}
 
 		// *** we cannot use the following
-		// 
+		//
 		// $user = RequestContext::getMain()->getUser();
 		// if ( !UserVerification::isAuthorized( $user ) ) {
 		// 	$GLOBALS['wgEmailConfirmToEdit'] = true;
@@ -88,7 +88,7 @@ class UserVerificationHooks {
 	 * @param MediaWiki|MediaWiki\Actions\ActionEntryPoint $mediaWiki $mediaWiki
 	 * @return void
 	 */
-	public static function onBeforeInitialize( \Title &$title, $unused, \OutputPage $output, \User $user, \WebRequest $request, $mediaWiki ) {
+	public static function onBeforeInitialize( &$title, $unused, $output, $user, $request, $mediaWiki ) {
 		// required confirm to edit and email authentication
 		// only for non admins
 		if ( !UserVerification::isAuthorizedGroup( $user ) ) {
@@ -118,7 +118,7 @@ class UserVerificationHooks {
 	 * @param array|string|MessageSpecifier &$result User
 	 * @return bool
 	 */
-	public static function onGetUserPermissionsErrors( $title, $user, $action, &$result ) {	
+	public static function onGetUserPermissionsErrors( $title, $user, $action, &$result ) {
 		// *** we cannot use the following
 
 		// $userOptionsManager = MediaWikiServices::getInstance()->getUserOptionsManager();
@@ -134,7 +134,7 @@ class UserVerificationHooks {
 		// *** this seems the only way
 		if ( $action === 'edit' ) {
 			if ( $GLOBALS['wgUserVerificationEmailConfirmToEdit']
-				&& !UserVerification::isAuthorizedGroup( $user ) 
+				&& !UserVerification::isAuthorizedGroup( $user )
 				&& !$user->getEmailAuthenticationTimestamp()
 			) {
 				$result = [ 'confirmedittext' ];
@@ -160,7 +160,7 @@ class UserVerificationHooks {
 	}
 
 	/**
-	 * @param User $user
+	 * @param User &$user
 	 * @param string &$injectHtml
 	 * @param bool $direct
 	 * @return void
@@ -177,7 +177,7 @@ class UserVerificationHooks {
 	}
 
 	/**
-	 * @param User
+	 * @param User &$user
 	 * @param string &$inject_html
 	 * @param string $oldName
 	 */
@@ -233,7 +233,7 @@ $wgEmailAuthenticationMailerConf = [
 
 		// $email->html( $body );
 		// $email->text( $mailer->html2Text( $body ) );
-		$email->text($body );
+		$email->text( $body );
 		$email->to( implode( ', ', $to ) );
 
 		$mailer->sendEmail( $email );

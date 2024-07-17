@@ -1,6 +1,7 @@
 <?php
-global $Countries;
-// https://gist.github.com/djaiss/2938259
+// MediaWiki.NamingConventions.ValidGlobalName.allowedPrefix
+// phpcs:ignore lobal $Countries;
+// @see https://gist.github.com/djaiss/2938259
 $Countries = [
 	'AF' => 'Afghanistan',
 	'AL' => 'Albania',

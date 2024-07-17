@@ -21,11 +21,7 @@
  * @author thomas-topway-it <support@topway.it>
  * @copyright Copyright ©2023, https://wikisphere.org
  */
- 
-use MediaWiki\Auth\AuthManager;
-use MediaWiki\Extension\UserVerification\CreateAccount;
-use MediaWiki\Logger\LoggerFactory;
-use MediaWiki\MainConfigNames;
+
 use MediaWiki\MediaWikiServices;
 
 class SpecialUserVerificationList extends SpecialPage {
@@ -150,8 +146,7 @@ class SpecialUserVerificationList extends SpecialPage {
 	}
 
 	/**
-	 * @param string $data
-	 * @param OutputPage $out
+	 * @param string $filename
 	 */
 	protected function displayFile( $filename ) {
 		include_once __DIR__ . '/MimeTypes.php';
@@ -167,7 +162,7 @@ class SpecialUserVerificationList extends SpecialPage {
 		$file = \UserVerification::getUploadDir( $this->userId ) . '/' . $filename;
 		$contents = file_get_contents( $file );
 		$contents = \UserVerification::decryptData( $contents );
-			
+
 		header( "Content-type: $mime" );
 		header( 'Content-Disposition: inline; filename="' . $filename . '"' );
 		header( 'Content-Length: ' . strlen( $contents ) );
@@ -185,7 +180,7 @@ class SpecialUserVerificationList extends SpecialPage {
 
 		if ( empty( $data ) ) {
 			$out->addHTML( Html::Element( 'h3', [], $user->getName() ) );
-			$out->addWikiMsg( 'userverification-special-manage-userverification-nodata' );	
+			$out->addWikiMsg( 'userverification-special-manage-userverification-nodata' );
 
 			return;
 		}
@@ -200,7 +195,8 @@ class SpecialUserVerificationList extends SpecialPage {
 			[ $type, $value ] = $value;
 
 			$table .= Html::openElement( 'tr' );
-			$table .= Html::Element( 'th', [ 'style' => 'width:1%;text-align:left;white-space:nowrap' ], str_replace( '_', ' ', $key ) );					
+			$table .= Html::Element( 'th', [ 'style' => 'width:1%;text-align:left;white-space:nowrap' ],
+				str_replace( '_', ' ', $key ) );
 
 			if ( $type !== 'file' ) {
 				$table .= Html::Element( 'td', [], $value );
@@ -215,7 +211,7 @@ class SpecialUserVerificationList extends SpecialPage {
 					[ 'file' => $value ]
 				);
 
-				$value =  new OOUI\ButtonWidget( [
+				$value = new OOUI\ButtonWidget( [
 					'icon' => 'eye',
 					'label' => 'view',
 					'href' => $url,
@@ -233,7 +229,7 @@ class SpecialUserVerificationList extends SpecialPage {
 
 	/**
 	 * @param Request $request
-	 * @return string
+	 * @param array $row
 	 */
 	protected function passwordForm( $request, $row ) {
 		$formDescriptor = [];
@@ -256,7 +252,7 @@ class SpecialUserVerificationList extends SpecialPage {
 				}
 				return true;
 			},
-			
+
 		];
 		$htmlForm = HTMLForm::factory( 'ooui', $formDescriptor, $this->getContext() );
 
@@ -268,7 +264,7 @@ class SpecialUserVerificationList extends SpecialPage {
 			->setWrapperLegendMsg( 'userverification-special-manage-userverification-form-manage-legend' )
 			->setSubmitText( $this->msg( 'userverification-special-manage-userverification-form-manage-submit' )->text() )
 			->addHeaderText( $this->msg( 'userverification-special-manage-userverification-form-manage-header' )->text() );
-		
+
 		$htmlForm->prepareForm();
 		$result = $htmlForm->tryAuthorizedSubmit();
 
@@ -278,6 +274,7 @@ class SpecialUserVerificationList extends SpecialPage {
 
 	/**
 	 * @param Request $request
+	 * @param array $row
 	 * @return string
 	 */
 	protected function manageVerificationForm( $request, $row ) {
@@ -322,12 +319,12 @@ class SpecialUserVerificationList extends SpecialPage {
 			->setWrapperLegendMsg( 'userverification-special-manage-userverification-form-manage-legend' )
 			->setSubmitText( $this->msg( 'userverification-special-manage-userverification-form-manage-submit' )->text() )
 			->addHeaderText( $this->msg( 'userverification-special-manage-userverification-form-manage-header' )->text() );
-		
+
 		$htmlForm->prepareForm();
 		$result = $htmlForm->tryAuthorizedSubmit();
 
 		// $htmlForm->displayForm( $result );
-		
+
 		return $htmlForm->getHTML( false );
 	}
 
@@ -377,7 +374,6 @@ class SpecialUserVerificationList extends SpecialPage {
 
 	/**
 	 * @param array $data
-	 * @param HTMLForm $htmlForm
 	 * @return bool
 	 */
 	public function onSubmitPassword( $data ) {
@@ -399,7 +395,6 @@ class SpecialUserVerificationList extends SpecialPage {
 
 	/**
 	 * @param array $data
-	 * @param HTMLForm $htmlForm
 	 * @return bool
 	 */
 	public function onSubmit( $data ) {

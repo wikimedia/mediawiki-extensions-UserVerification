@@ -20,9 +20,11 @@
  * @author thomas-topway-it <support@topway.it>
  * @copyright Copyright ©2024, https://wikisphere.org
  */
+// @credits https://github.com/briannippert/Password-Validator/blob/master/PasswordValidatorv2.js
 
 class PasswordValidator {
-	// @credits https://github.com/briannippert/Password-Validator/blob/master/PasswordValidatorv2.js
+
+	/** @var array */
 	private $conf = [
 		'minSize' => 5,
 		'maxSize' => 15,
@@ -38,6 +40,10 @@ class PasswordValidator {
 	public function __construct() {
 	}
 
+	/**
+	 * @param string $value
+	 * @return array
+	 */
 	public function checkPassword( $value ) {
 		$length = $this->conf['lengthConfigured'] ? $this->checkLength( $value ) : true;
 		$upper = $this->conf['uppercaseConfigured'] ? $this->checkUpperCase( $value ) : true;
@@ -67,27 +73,50 @@ class PasswordValidator {
 		return $errors;
 	}
 
+	/**
+	 * @param string $str
+	 * @return bool
+	 */
 	public function checkSpecialCharacters( $str ) {
 		// var specialChar = new RegExp("[_\\-#%*\\+]");
 		return preg_match( '/[' . preg_quote( implode( '', $this->conf['specialCharacters'] ) ) . ']/', $str );
 	}
 
+	/**
+	 * @param string $str
+	 * @return bool
+	 */
 	public function checkProhibitedCharacter( $str ) {
 		return preg_match( '/[' . preg_quote( implode( '', $this->conf['prohibitedCharacters'] ) ) . ']/', $str );
 	}
 
+	/**
+	 * @param string $str
+	 * @return bool
+	 */
 	public function checkDigit( $str ) {
 		return preg_match( '/\d/', $str );
 	}
 
+	/**
+	 * @param string $str
+	 * @return bool
+	 */
 	public function checkUpperCase( $str ) {
 		return preg_match( '/[^A-Z]/', $str );
 	}
 
+	/**
+	 * @param string $str
+	 * @return bool
+	 */
 	public function checkLength( $str ) {
 		return strlen( $str ) >= $this->conf['minSize'] && strlen( $str ) <= $this->conf['maxSize'];
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getConf() {
 		return $this->conf;
 	}

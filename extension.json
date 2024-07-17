@@ -43,7 +43,6 @@
 			"userverification-admin",
 			"userverification-require-verification",
 			"userverification-do-not-require-verification"
-			
 		]
 	},
 	"RemoveGroups": {

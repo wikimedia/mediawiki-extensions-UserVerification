@@ -14,4 +14,3 @@ $specialPageAliases['en'] = [
 	'UserVerification' => [ 'UserVerification' ],
 	'UserVerificationList' => [ 'UserVerificationList' ],
 ];
-

@@ -21,18 +21,17 @@
 
 $( function () {
 	var Config = mw.config.get( 'userverification-config' );
-	
-console.log(Config);
+
 	// display every 3 days
 	if (
-		Config[ 'canManageVerification' ] &&
+		Config.canManageVerification &&
 		!mw.cookie.get( 'userverification-check-latest-version' )
 	) {
 		mw.loader.using( 'mediawiki.api', function () {
 			var action = 'userverification-check-latest-version';
 			new mw.Api()
 				.postWithToken( 'csrf', {
-					action
+					action: action
 				} )
 				.done( function ( res ) {
 					if ( action in res ) {

@@ -135,8 +135,7 @@ class UserVerification {
 	}
 
 	/**
-	 * @param int $user_id
-	 * @param array $row
+	 * @param string $data
 	 * @return string|null|false
 	 */
 	public static function decryptData( $data ) {
@@ -302,7 +301,8 @@ class UserVerification {
 
 		$date = date( 'Y-m-d H:i:s' );
 		if ( !$user_id_ ) {
-			$res = $dbr->insert( 'userverification_verification', $row + [ 'user_id' => $user_id, 'updated_at' => $date, 'created_at' => $date ] );
+			$res = $dbr->insert( 'userverification_verification',
+				$row + [ 'user_id' => $user_id, 'updated_at' => $date, 'created_at' => $date ] );
 
 		} else {
 			$res = $dbr->update( 'userverification_verification', $row + [ 'updated_at' => $date ], [ 'user_id' => $user_id ], __METHOD__ );
@@ -355,18 +355,21 @@ class UserVerification {
 
 		// @see https://php.watch/articles/modern-php-encryption-decryption-sodium
 		// Unauthenticated Asymmetric Encryption
+
+		// phpcs:ignore MediaWiki.Usage.SuperGlobalsUsage.SuperGlobals
+		$Files = $_FILES;
 		foreach ( $data as $key => $value ) {
 			[ $type, $value ] = $value;
-			if ( $type === 'file' && !empty( $_FILES[$key]['tmp_name'] ) ) {
-				$target_file = $uploadDir . '/' . basename( $_FILES[$key]['name'] );
+			if ( $type === 'file' && !empty( $Files[$key]['tmp_name'] ) ) {
+				$target_file = $uploadDir . '/' . basename( $Files[$key]['name'] );
 				// if ( !move_uploaded_file( $_FILES['proof_of_identity']['tmp_name'], $target_file) ) {
 				// 	exit( 'cannot save uploaded file' );
 				// }
-				if ( $_FILES[$key]['size'] > $maxSize ) {
+				if ( $Files[$key]['size'] > $maxSize ) {
 					exit( 'file is too large' );
 				}
-				$contents = file_get_contents( $_FILES[$key]['tmp_name'] );
-				unlink( $_FILES[$key]['tmp_name'] );
+				$contents = file_get_contents( $Files[$key]['tmp_name'] );
+				unlink( $Files[$key]['tmp_name'] );
 				file_put_contents( $target_file, sodium_crypto_box_seal( $contents, $keys['public_key'] ) );
 			}
 		}
@@ -452,7 +455,9 @@ class UserVerification {
 	public static function getUserKey() {
 		$context = RequestContext::getMain();
 		$request = $context->getRequest();
-		if ( !$user_key_encoded = $request->getCookie( self::$cookieUserKey ) ) {
+
+		$user_key_encoded = $request->getCookie( self::$cookieUserKey );
+		if ( !$user_key_encoded ) {
 			return false;
 		}
 

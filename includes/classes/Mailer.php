@@ -28,16 +28,11 @@ if ( is_readable( __DIR__ . '/../../vendor/autoload.php' ) ) {
 	include_once __DIR__ . '/../../vendor/autoload.php';
 }
 
-use MediaWiki\MediaWikiServices;
-use Parser;
-use ParserOptions;
 use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer as SymfonyMailer;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mime\Email;
-use Title;
-use User;
 
 class Mailer {
 
@@ -48,7 +43,7 @@ class Mailer {
 	private $mailer;
 
 	/**
-	 * @param string $mailer
+	 * @param string $provider
 	 * @param array $conf
 	 * @param array &$errors []
 	 */
@@ -221,8 +216,8 @@ $wgEmailAuthenticationMailerConf = [
 	}
 
 	/**
-	 * @param Email $email
-	 * @return bool
+	 * @param string $html
+	 * @return string
 	 */
 	public function html2Text( $html ) {
 		$html2Text = new \Html2Text\Html2Text( $html );

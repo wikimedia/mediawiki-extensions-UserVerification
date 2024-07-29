@@ -171,7 +171,7 @@ class UserVerificationHooks {
 			&& !$user->isEmailConfirmed() ) {
 			$webRequest = RequestContext::getMain()->getRequest();
 			$response = $webRequest->response();
-			$title = SpecialPage::getTitleFor( 'ConfirmEmail' );
+			$title = SpecialPage::getTitleFor( 'Confirmemail' );
 			$response->header( 'Location: ' . $title->getLocalURL() );
 		}
 	}

@@ -59,7 +59,10 @@ $( function () {
 							$( '.mw-body-content' )
 							// $( '.mw-htmlform-ooui-wrapper' )
 								.first()
-								.prepend( messageWidget.$element );
+								.prepend(
+									// eslint-disable-next-line no-jquery/no-parse-html-literal
+									$( '<div><br/></div>' ).prepend( messageWidget.$element )
+								);
 							if (
 								// eslint-disable-next-line no-jquery/no-class-state
 								!messageWidget.$element.hasClass(

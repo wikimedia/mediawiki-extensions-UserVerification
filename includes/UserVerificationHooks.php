@@ -21,10 +21,6 @@
  * @copyright Copyright ©2024, https://wikisphere.org
  */
 
-// use MediaWiki\MediaWikiServices;
-// use MediaWiki\MainConfigNames;
-use MediaWiki\Extension\UserVerification\Mailer;
-
 class UserVerificationHooks {
 
 	/**
@@ -131,6 +127,11 @@ class UserVerificationHooks {
 		// 		PermissionManager::CONSTRUCTOR_OPTIONS, $services->getMainConfig()
 		// 	)
 
+		// ignore on maintenance script
+		if ( defined( 'MW_UPDATER' ) ) {
+			return;
+		}
+
 		// *** this seems the only way
 		if ( $action === 'edit' ) {
 			if ( $GLOBALS['wgUserVerificationEmailConfirmToEdit']
@@ -185,60 +186,4 @@ class UserVerificationHooks {
 		UserVerification::deleteCookie();
 	}
 
-	/**
-	 * @param array $headers
-	 * @param MailAddress $to
-	 * @param MailAddress $from
-	 * @param string $subject
-	 * @param string $body
-	 * @return bool
-	 */
-	public static function onAlternateUserMailer( array $headers, array $to, MailAddress $from, $subject, $body ) {
-/*
-$wgEmailAuthenticationMailer = 'sendgrid';	// 'native';
-$wgEmailAuthenticationMailerConf = [
-	'transport' => 'api'			// smtp, http, api
-	'key' => ''
-];
-*/
-
-		$mailer = $GLOBALS['wgUserVerificationMailer'];
-		$conf = $GLOBALS['wgUserVerificationMailerConf'];
-
-		if ( empty( $mailer ) || empty( $conf ) ) {
-			return;
-		}
-
-		$errors = [];
-		$mailer = new Mailer( $mailer, $conf, $errors );
-		if ( count( $errors ) ) {
-			echo $errors[0];
-			return;
-		}
-
-		$email = $mailer->mail;
-
-		$returnPath = $headers['Return-Path'];
-		$email->returnPath( $returnPath );
-		$email->from( $from->name . '<' . $from->address . '>' );
-
-		if ( empty( $subject ) ) {
-			// zero width space, this is a workaround
-			// for the annoying error
-			// 'Unable to send an email: The subject is required'
-			$subject = '​';
-		}
-
-		$email->subject( $subject );
-
-		// $email->html( $body );
-		// $email->text( $mailer->html2Text( $body ) );
-		$email->text( $body );
-		$email->to( implode( ', ', $to ) );
-
-		$mailer->sendEmail( $email );
-
-		// prevent regular sending
-		return false;
-	}
 }

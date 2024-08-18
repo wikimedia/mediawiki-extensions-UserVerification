@@ -175,11 +175,12 @@ class UserPager extends TablePager {
 		$dbr = \UserVerification::getDB( DB_REPLICA );
 		$conds = [];
 		$join_conds = [];
-		$join_conds[$dbr->tableName( 'userverification_verification' ) . ' as userverification'] =
-			[ 'LEFT JOIN', 'user.user_id=userverification.user_id' ];
+		$join_conds['userverification'] = [ 'LEFT JOIN', 'user_alias.user_id=userverification.user_id' ];
+		$tables = [];
+		$tables['user_alias'] = 'user';
+		$tables['userverification'] = 'userverification_verification';
 		$options = [];
-		$tables = [ $dbr->tableName( 'user' ) . ' as user', $dbr->tableName( 'userverification_verification' ) . ' as userverification' ];
-		$fields = [ 'user.*', 'userverification.status', 'userverification.method' ];
+		$fields = [ 'user_alias.*', 'userverification.status', 'userverification.method' ];
 
 		$username = $this->request->getVal( 'username' );
 		if ( !empty( $username ) ) {
@@ -187,7 +188,7 @@ class UserPager extends TablePager {
 			$userIdentityLookup = $services->getUserIdentityLookup();
 			$user = $userIdentityLookup->getUserIdentityByName( $username );
 			$user_id = $user->getId();
-			$conds[ 'user.user_id' ] = $user_id;
+			$conds[ 'user_alias.user_id' ] = $user_id;
 		}
 
 		$status = $this->request->getVal( 'status' );

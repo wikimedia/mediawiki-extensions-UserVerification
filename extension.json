@@ -15,7 +15,6 @@
 	},
 	"callback": "UserVerificationHooks::initExtension",
 	"AutoloadNamespaces": {
-		"MediaWiki\\Extension\\UserVerification\\": "includes/classes",
 		"MediaWiki\\Extension\\UserVerification\\Pagers\\": "includes/specials/pagers/"
 	},
 	"AutoloadClasses": {
@@ -62,7 +61,6 @@
 	"Hooks": {
 		"BeforeInitialize": "UserVerificationHooks::onBeforeInitialize",
 		"ParserFirstCallInit": "UserVerificationHooks::onParserFirstCallInit",
-		"AlternateUserMailer": "UserVerificationHooks::onAlternateUserMailer",
 		"UserLoginComplete": "UserVerificationHooks::onUserLoginComplete",
 		"UserLogoutComplete": "UserVerificationHooks::onUserLogoutComplete",
 		"getUserPermissionsErrors": "UserVerificationHooks::onGetUserPermissionsErrors",

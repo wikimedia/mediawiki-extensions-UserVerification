@@ -127,8 +127,8 @@ class UserVerificationHooks {
 		// 		PermissionManager::CONSTRUCTOR_OPTIONS, $services->getMainConfig()
 		// 	)
 
-		// ignore on maintenance script
-		if ( defined( 'MW_UPDATER' ) ) {
+		// ignore on maintenance scripts
+		if ( defined( 'MW_ENTRY_POINT' ) && MW_ENTRY_POINT === 'cli' ) {
 			return;
 		}
 

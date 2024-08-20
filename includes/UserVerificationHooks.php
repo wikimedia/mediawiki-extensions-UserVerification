@@ -129,13 +129,14 @@ class UserVerificationHooks {
 
 		// ignore on maintenance scripts
 		if ( defined( 'MW_ENTRY_POINT' ) && MW_ENTRY_POINT === 'cli' ) {
-			return;
+			return true;
 		}
 
 		// *** this seems the only way
 		if ( $action === 'edit' ) {
 			if ( $GLOBALS['wgUserVerificationEmailConfirmToEdit']
 				&& !UserVerification::isAuthorizedGroup( $user )
+				&& !UserVerification::isVerified( $user )
 				&& !$user->getEmailAuthenticationTimestamp()
 			) {
 				$result = [ 'confirmedittext' ];

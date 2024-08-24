@@ -72,7 +72,7 @@ class SpecialUserVerificationList extends SpecialPage {
 		$keys = \UserVerification::getKeys();
 
 		if ( empty( $keys ) ) {
-			$out->addHTML( Html::warningBox( $this->msg( 'userverification-special-manage-no-keys' )->text(), [] ) );
+			$out->addHTML( Html::warningBox( $this->msg( 'userverification-special-manage-no-keys' )->parse(), [] ) );
 			return;
 		}
 

@@ -289,7 +289,7 @@ class UserVerification {
 	 * @return bool
 	 */
 	public static function setManageVerification( $user_id, $row ) {
-		$dbr = self::getDB( DB_MASTER );
+		$dbr = self::getDB( DB_PRIMARY );
 
 		$user_id_ = $dbr->selectField(
 			'userverification_verification',
@@ -340,7 +340,7 @@ class UserVerification {
 	 * @return bool
 	 */
 	public static function setVerificationData( $user, $data ) {
-		$dbr = self::getDB( DB_MASTER );
+		$dbr = self::getDB( DB_PRIMARY );
 		$user_id = $user->getId();
 		$uploadDir = self::getUploadDir( $user_id );
 		if ( !file_exists( $uploadDir ) ) {
@@ -536,7 +536,6 @@ class UserVerification {
 		$connectionProvider = MediaWikiServices::getInstance()->getConnectionProvider();
 		switch ( $db ) {
 			case DB_PRIMARY:
-			case DB_MASTER:
 				return $connectionProvider->getPrimaryDatabase();
 			case DB_REPLICA:
 			default:

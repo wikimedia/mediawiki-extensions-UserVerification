@@ -107,7 +107,7 @@ class CreateKeys extends Maintenance {
 		];
 
 		$date = date( 'Y-m-d H:i:s' );
-		$dbr = \UserVerification::getDB( DB_MASTER );
+		$dbr = \UserVerification::getDB( DB_PRIMARY );
 
 		try {
 			$res = $dbr->insert( 'userverification_keys', $row + [ 'updated_at' => $date, 'created_at' => $date ] );

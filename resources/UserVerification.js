@@ -19,5 +19,5 @@
  * @copyright Copyright © 2024, https://wikisphere.org
  */
 
-$( document ).ready( function () {
+$( function () {
 } );

@@ -5,6 +5,8 @@
 	"userverification-extension-desc": "A label message",
 	"userverificationlist": "A label message",
 	"userverification": "A label message",
+	"userverification-sitenotice-require-emailconfirmatio-link-text": "A label message",
+	"userverification-sitenotice-require-emailconfirmation": "A label message",
 	"specialpages-group-userverification": "A label message",
 	"userverification-jsmodule-outdated-version": "A label message",
 	"apihelp-userverification-check-latest-version-summary": "A label message",

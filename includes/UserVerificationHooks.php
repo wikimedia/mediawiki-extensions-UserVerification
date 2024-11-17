@@ -101,6 +101,73 @@ class UserVerificationHooks {
 	}
 
 	/**
+	 * @param string &$siteNotice
+	 * @param Skin $skin
+	 * @return bool
+	 */
+	public static function onSiteNoticeBefore( &$siteNotice, $skin ) {
+		$user = $skin->getUser();
+		$title = $skin->getTitle();
+		$whiteList = [ 'CreateAccount', 'Preferences', 'ChangeEmail', 'Userlogin', 'Confirmemail' ];
+		$isWhiteList = static function () use ( $whiteList, $title ) {
+			foreach ( $whiteList as $titletext_ ) {
+				$specialTitle = SpecialPage::getTitleFor( $titletext_ );
+				[ $text_ ] = explode( '/', $title->getFullText(), 2 );
+				if ( $specialTitle->getFullText() === $text_ ) {
+					return true;
+				}
+			}
+			return false;
+		};
+		if ( $GLOBALS['wgUserVerificationEmailConfirmToEdit']
+			&& $user->isRegistered()
+			&& !UserVerification::isAuthorizedGroup( $user )
+			&& !UserVerification::isVerified( $user )
+			&& !$user->getEmailAuthenticationTimestamp()
+			&& !$isWhiteList()
+		) {
+			$labelHtml = wfMessage( 'userverification-sitenotice-require-emailconfirmatio-link-text' )->text();
+
+			if ( !Sanitizer::validateEmail( $user->getEmail() ) ) {
+				$titleReturn = SpecialPage::getTitleFor( 'ConfirmEmail' );
+				$query_ = [ 'return' => $titleReturn->getFullText() ];
+				$title_ = SpecialPage::getTitleFor( 'ChangeEmail' );
+				$link = Linker::link( $title_, $labelHtml, [], $query_ );
+			} else {
+				$query_ = [ 'return' => $title->getFullText() ];
+				$title_ = SpecialPage::getTitleFor( 'ConfirmEmail' );
+				$link = Linker::link( $title_, $labelHtml, [], $query_ );
+			}
+			$siteNotice = '<div class="userverification-sitenotice">'
+				// UserVerification::addHeaditem is used to retrieve
+				// the required styles before page loads
+				. new \OOUI\MessageWidget( [
+				'type' => 'warning',
+				'icon' => 'info',
+				'label' => new OOUI\HtmlSnippet(
+					wfMessage( 'userverification-sitenotice-require-emailconfirmation', $link )->text()
+				)
+			] ) . '</div>';
+
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @param OutputPage $outputPage
+	 * @param Skin $skin
+	 * @return void
+	 */
+	public static function onBeforePageDisplay( OutputPage $outputPage, Skin $skin ) {
+		UserVerification::addHeaditem( $outputPage, [
+			[ 'stylesheet', $GLOBALS['wgResourceBasePath'] . '/extensions/UserVerification/resources/style.css' ],
+			[ 'stylesheet', $GLOBALS['wgResourceBasePath'] . '/resources/lib/ooui/oojs-ui-images-wikimediaui.css' ],
+			[ 'stylesheet', $GLOBALS['wgResourceBasePath'] . '/resources/lib/ooui/oojs-ui-core-wikimediaui.css' ],
+		] );
+	}
+
+	/**
 	 * @param Parser $parser
 	 */
 	public static function onParserFirstCallInit( Parser $parser ) {

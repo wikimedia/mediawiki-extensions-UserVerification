@@ -60,7 +60,9 @@
 	},
 	"Hooks": {
 		"BeforeInitialize": "UserVerificationHooks::onBeforeInitialize",
+		"SiteNoticeBefore": "UserVerificationHooks::onSiteNoticeBefore",
 		"ParserFirstCallInit": "UserVerificationHooks::onParserFirstCallInit",
+		"BeforePageDisplay": "UserVerificationHooks::onBeforePageDisplay",
 		"UserLoginComplete": "UserVerificationHooks::onUserLoginComplete",
 		"UserLogoutComplete": "UserVerificationHooks::onUserLogoutComplete",
 		"getUserPermissionsErrors": "UserVerificationHooks::onGetUserPermissionsErrors",

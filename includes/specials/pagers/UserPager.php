@@ -24,12 +24,19 @@
 
 namespace MediaWiki\Extension\UserVerification\Pagers;
 
+// MW 1.42
+if ( class_exists( 'MediaWiki\SpecialPage\SpecialPage', false ) ) {
+	class_alias( 'MediaWiki\SpecialPage\SpecialPage', 'SpecialPageClass' );
+} else {
+	class_alias( 'SpecialPage', 'SpecialPageClass' );
+}
+
 use Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\SpecialPage\SpecialPage;
 use MWException;
 use ParserOutput;
+use SpecialPageClass;
 use TablePager;
 
 class UserPager extends TablePager {
@@ -156,7 +163,7 @@ class UserPager extends TablePager {
 
 			case 'actions':
 				$link = '<span class="mw-ui-button mw-ui-progressive">edit</span>';
-				$title_ = SpecialPage::getTitleFor( 'UserVerificationList', $row->user_id );
+				$title_ = SpecialPageClass::getTitleFor( 'UserVerificationList', $row->user_id );
 				$query = [];
 				$formatted = Linker::link( $title_, $link, [], $query );
 				break;

@@ -5,6 +5,9 @@
 	"userverification-extension-desc": "Provides a framework to manage verified users through different methods and to restrict performing actions to verified or email-authenticated users.",
 	"userverificationlist": "Manage users",
 	"userverification": "User verification",
+	"userverification-sitenotice-require-emailconfirmatio-link-text": "Verify your email address",
+	"userverification-sitenotice-require-emailconfirmation": "$1 to edit this wiki",
+
 	"specialpages-group-userverification": "User verification",
 	"userverification-jsmodule-outdated-version": "This version of UserVerification is outdated. <a href=\"https://www.mediawiki.org/wiki/Special:ExtensionDistributor/UserVerification\">Update</a>",
 

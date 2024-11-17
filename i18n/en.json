@@ -47,7 +47,7 @@
 	"userverification-pager-field-none": "none",
 	"userverification-pager-field-yes": "yes",
 	"userverification-pager-field-no": "no",
-
+	"userverification-pager-field-no-valid-user": "no valid user",
 	"userverifiedtoedittext": "You must verify your identity in order to edit this page: <b>$1</b>",
 	"userverifiedtoreadtext_": "You must verify your identity in order to access this page [[Special:UserVerification?return={{FULLPAGENAME}}]]",
 	"userverifiedtoreadtext-pending": "verification is pending",

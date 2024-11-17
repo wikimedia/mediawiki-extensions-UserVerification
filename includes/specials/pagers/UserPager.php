@@ -132,11 +132,15 @@ class UserPager extends TablePager {
 				$userIdentityLookup = $services->getUserIdentityLookup();
 				$user = $userIdentityLookup->getUserIdentityByName( $row->user_name );
 
-				$userGroupManager = $services->getUserGroupManager();
-				$userGroups = $userGroupManager->getUserEffectiveGroups( $user );
+				if ( $user ) {
+					$userGroupManager = $services->getUserGroupManager();
+					$userGroups = $userGroupManager->getUserEffectiveGroups( $user );
 
-				$msg = ( in_array( 'autoconfirmed', $userGroups ) ? 'yes' : 'no' );
-				$formatted = $this->msg( "userverification-pager-field-$msg" )->text();
+					$msg = ( in_array( 'autoconfirmed', $userGroups ) ? 'yes' : 'no' );
+					$formatted = $this->msg( "userverification-pager-field-$msg" )->text();
+				} else {
+					$formatted = $this->msg( "userverification-pager-field-no-valid-user" )->text();
+				}
 				break;
 
 			case 'user_registration':

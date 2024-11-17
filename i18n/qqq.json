@@ -38,6 +38,7 @@
 	"userverification-pager-field-none": "A label message",
 	"userverification-pager-field-yes": "A label message",
 	"userverification-pager-field-no": "A label message",
+	"userverification-pager-field-no-valid-user": "A label message",
 	"userverifiedtoedittext": "A label message",
 	"userverifiedtoreadtext_": "A label message",
 	"userverifiedtoreadtext-pending": "A label message",

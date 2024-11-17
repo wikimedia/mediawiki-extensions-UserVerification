@@ -178,6 +178,11 @@ class SpecialUserVerificationList extends SpecialPage {
 		$userIdentityLookup = $services->getUserIdentityLookup();
 		$user = $userIdentityLookup->getUserIdentityByUserId( $this->userId );
 
+		if ( !$user ) {
+			$out->addHTML( Html::Element( 'h3', [], $this->msg( 'userverification-pager-field-no-valid-user' )->text() ) );
+			return;
+		}
+
 		if ( empty( $data ) ) {
 			$out->addHTML( Html::Element( 'h3', [], $user->getName() ) );
 			$out->addWikiMsg( 'userverification-special-manage-userverification-nodata' );

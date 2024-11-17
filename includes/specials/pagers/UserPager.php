@@ -124,7 +124,10 @@ class UserPager extends TablePager {
 
 		switch ( $field ) {
 			case 'verification':
-				$formatted = $row->status ?? $this->msg( 'userverification-pager-field-none' )->text();
+				$formatted = ( $row->status ?
+					$this->msg( 'userverification-special-manage-verification-form-status-options-' . $row->status )
+					: $this->msg( 'userverification-pager-field-none' )->text()
+				);
 				break;
 
 			case 'autoconfirmed':
@@ -224,17 +227,24 @@ class UserPager extends TablePager {
 	}
 
 	/**
+	 * @inheritDoc
+	 */
+	protected function getDefaultDirections() {
+		return self::DIR_DESCENDING;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getIndexField() {
-		return 'user_name';
+		return 'user_registration';
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getDefaultSort() {
-		return 'user_name';
+		return 'user_registration';
 	}
 
 	/**

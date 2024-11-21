@@ -21,6 +21,7 @@
 	"group-userverification-do-not-require-verification-member": "A label message",
 	"right-userverification-can-manage-verification": "A label message",
 	"action-userverification-can-manage-verification": "A label message",
+	"userverification-password-reset-user-does-not-exist": "A label message",
 	"userverification-pager-header-actions": "A label message",
 	"userverification-pager-header-user_name": "A label message",
 	"userverification-pager-header-user_email": "A label message",

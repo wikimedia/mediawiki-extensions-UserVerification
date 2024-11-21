@@ -65,6 +65,8 @@
 		"BeforePageDisplay": "UserVerificationHooks::onBeforePageDisplay",
 		"UserLoginComplete": "UserVerificationHooks::onUserLoginComplete",
 		"UserLogoutComplete": "UserVerificationHooks::onUserLogoutComplete",
+		"PingLimiter": "UserVerificationHooks::onPingLimiter",
+		"SpecialPasswordResetOnSubmit": "UserVerificationHooks::onSpecialPasswordResetOnSubmit",
 		"getUserPermissionsErrors": "UserVerificationHooks::onGetUserPermissionsErrors",
 		"LoadExtensionSchemaUpdates": "UserVerificationHooks::onLoadExtensionSchemaUpdates"
 	},

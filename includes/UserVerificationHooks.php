@@ -101,6 +101,38 @@ class UserVerificationHooks {
 	}
 
 	/**
+	 * @param User &$user
+	 * @param string $action
+	 * @param bool &$result
+	 * @param int $incrBy
+	 * @return bool|void
+	 */
+	public static function onPingLimiter( &$user, $action, &$result, $incrBy ) {
+		// @FIXME use $incrBy if necessary
+		// *** necessary to make the hook below work
+		if ( $action === 'mailpassword' ) {
+			$result = false;
+			return false;
+		}
+	}
+
+	/**
+	 * @param array &$users
+	 * @param array $data
+	 * @param string|array|MessageSpecifier &$error
+	 * @return bool|void
+	 */
+	public static function onSpecialPasswordResetOnSubmit( &$users, $data, &$error ) {
+		foreach ( $users as $user ) {
+			if ( $user->isRegistered() ) {
+				return;
+			}
+		}
+		$error = 'userverification-password-reset-user-does-not-exist';
+		return false;
+	}
+
+	/**
 	 * @param string &$siteNotice
 	 * @param Skin $skin
 	 * @return bool
@@ -149,6 +181,9 @@ class UserVerificationHooks {
 				)
 			] ) . '</div>';
 
+			$out = $skin->getOutput();
+			$out->addModules( [ 'ext.UserVerification' ] );
+
 			return false;
 		}
 		return true;
@@ -162,8 +197,12 @@ class UserVerificationHooks {
 	public static function onBeforePageDisplay( OutputPage $outputPage, Skin $skin ) {
 		UserVerification::addHeaditem( $outputPage, [
 			[ 'stylesheet', $GLOBALS['wgResourceBasePath'] . '/extensions/UserVerification/resources/style.css' ],
-			[ 'stylesheet', $GLOBALS['wgResourceBasePath'] . '/resources/lib/ooui/oojs-ui-images-wikimediaui.css' ],
-			[ 'stylesheet', $GLOBALS['wgResourceBasePath'] . '/resources/lib/ooui/oojs-ui-core-wikimediaui.css' ],
+
+			// *** unfortunately we cannot use the following
+			// since if coflicts with .less css files (i.e.
+			// OOUI widgets do not show propertly)
+			// [ 'stylesheet', $GLOBALS['wgResourceBasePath'] . '/resources/lib/ooui/oojs-ui-images-wikimediaui.css' ],
+			// [ 'stylesheet', $GLOBALS['wgResourceBasePath'] . '/resources/lib/ooui/oojs-ui-core-wikimediaui.css' ],
 		] );
 	}
 

@@ -27,6 +27,7 @@
 	"right-userverification-can-manage-verification": "Can mananage verification (UserVerification)",
 	"action-userverification-can-manage-verification": "can mananage verification (UserVerification)",
 
+	"userverification-password-reset-user-does-not-exist": "user does not exist",
 	"userverification-pager-header-actions": "actions",
 	"userverification-pager-header-user_name": "username",
 	"userverification-pager-header-user_email": "email",

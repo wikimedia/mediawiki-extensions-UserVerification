@@ -101,7 +101,9 @@
 				"oojs-ui.styles.icons-accessibility"
 			],
 			"messages": [
-				"userverification-jsmodule-outdated-version"
+				"userverification-jsmodule-outdated-version",
+				"userverification-module-delete-alert",
+				"userverification-module-delete-alert-b"
 			]
 		}
 	},
@@ -117,6 +119,9 @@
 		},
 		"UserVerificationDisableVersionCheck": {
 			"value": false
+		},
+		"UserVerificationDeleteUsersAuthorizedUsers": {
+			"value": []
 		}
 	},
 	"manifest_version": 2

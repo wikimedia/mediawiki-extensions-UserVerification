@@ -18,7 +18,7 @@
  * @file
  * @ingroup extensions
  * @author thomas-topway-it <support@topway.it>
- * @copyright Copyright ©2024, https://wikisphere.org
+ * @copyright Copyright ©2024-2025, https://wikisphere.org
  */
 
 use Defuse\Crypto\Crypto;
@@ -510,6 +510,140 @@ class UserVerification {
 				'showNoticeOutdatedVersion' => empty( $GLOBALS['wgUserVerificationDisableVersionCheck'] )
 			]
 		] );
+	}
+
+	/**
+	 * @param User $user
+	 * @return bool
+	 */
+	public static function canDeleteUsers( $user ) {
+		if ( !is_array( $GLOBALS['wgUserVerificationDeleteUsersAuthorizedUsers'] ) ) {
+			return false;
+		}
+
+		if ( !in_array( $user->getID(), $GLOBALS['wgUserVerificationDeleteUsersAuthorizedUsers'] ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @see https://webmasters.stackexchange.com/questions/9194/mass-deletion-of-spam-revisions-in-mediawiki
+	 * @param User $user
+	 * @param array $users
+	 * @return bool
+	 */
+	public static function deleteUsers( $user, $users ) {
+		if ( !self::canDeleteUsers( $user ) ) {
+			return false;
+		}
+
+		$dbw = self::getDB( DB_PRIMARY );
+		$filterNumeric = static function ( $value ) {
+			if ( is_numeric( $value ) ) {
+				return (int)$value;
+			}
+		};
+
+		$users = array_filter( $users, $filterNumeric );
+		if ( !count( $users ) ) {
+			return false;
+		}
+
+		$usersStr = implode( ',', $users );
+
+		$tables = [ 'user', 'actor' ];
+		$conds = [ "user_id IN ($usersStr)" ];
+		$join_conds = [];
+		$join_conds['actor'] = [ 'LEFT JOIN', 'user.user_id=actor.actor_user' ];
+		$options = [];
+
+		$res = $dbw->select(
+			$tables,
+			'actor_id',
+			$conds,
+			__METHOD__,
+			$options,
+			$join_conds
+		);
+
+		$actors = [];
+		foreach ( $res as $row ) {
+			$actors[] = $row->actor_id;
+		}
+
+		$actors = array_filter( $actors, $filterNumeric );
+
+		$tablesConds = [
+			'actor' => [ "actor_user IN ($usersStr)" ],
+			'user' => [ "user_id IN ($usersStr)" ],
+			'user_groups' => [ "ug_user IN ($usersStr)" ],
+			'user_properties' => [ "up_user IN ($usersStr)" ],
+			'user_newtalk' => [ "user_id IN ($usersStr)" ]
+		];
+
+		if ( count( $actors ) ) {
+			$actorsStr = implode( ',', $actors );
+			$tablesConds = array_merge( $tablesConds, [
+				'revision' => [ "rev_actor IN ($actorsStr)" ],
+				'slots' => [ 'slot_revision_id NOT IN (SELECT rev_id FROM revision)' ],
+				'content' => [ 'content_id NOT IN (SELECT slot_content_id FROM slots)' ],
+			] );
+		}
+
+		foreach ( $tablesConds as $tableName => $conds ) {
+			$dbw->delete(
+				$tableName,
+				$conds,
+				__METHOD__
+			);
+		}
+
+		if ( !count( $actors ) ) {
+			return true;
+		}
+
+		// causes error "SQLPlatform::updateSqlText called with empty conditions"
+		// $tableName = 'page';
+		// $update = [ 'page_latest' => 0 ];
+		// $conds = [];
+		// $res = $dbw->update(
+		// 	$tableName,
+		// 	$update,
+		// 	$conds,
+		// 	__METHOD__
+		// );
+		$tableName = $dbw->tableName( 'page' );
+		$res = $dbw->query( "UPDATE $tableName SET page_latest = 0", __METHOD__ );
+
+		// causes error "SQLPlatform::updateSqlText called with empty conditions"
+		// $tableName = 'page';
+		// $conds = [];
+		// $update = [ 'page_latest' => '(SELECT MAX(rev_id) FROM revision WHERE rev_page = page_id)' ];
+		// $res = $dbw->update(
+		// 	$tableName,
+		// 	$update,
+		// 	$conds,
+		// 	__METHOD__
+		// );
+
+		$tableName = $dbw->tableName( 'page' );
+		$res = $dbw->query( "UPDATE $tableName SET page_latest = (SELECT MAX(rev_id) FROM revision WHERE rev_page = page_id)", __METHOD__ );
+
+		// causes error "SQLPlatform::updateSqlText called with empty conditions"
+		// $conds = [ 'page_latest' => 0 ];
+		// $dbw->delete(
+		// 	$tableName,
+		// 	$conds,
+		// 	__METHOD__
+		// );
+		$tableName = $dbw->tableName( 'page' );
+		$res = $dbw->query( "DELETE FROM $tableName WHERE page_latest = 0", __METHOD__ );
+
+		// php maintenance/run.php rebuildall
+		// php maintenance/run.php purgeOldText --purge
+		return true;
 	}
 
 	/**

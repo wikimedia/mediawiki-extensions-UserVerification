@@ -16,8 +16,26 @@
  *
  * @file
  * @author thomas-topway-it <thomas.topway.it@mail.com>
- * @copyright Copyright © 2024, https://wikisphere.org
+ * @copyright Copyright © 2025, https://wikisphere.org
  */
 
 $( function () {
+	// eslint-disable-next-line no-unused-vars
+	$( '#userverification-special-manage-toggle-delete-user' ).on( 'click', function ( evt ) {
+		$( '.userverification-pager-button-delete-selected' ).toggle();
+	} );
+
+	// eslint-disable-next-line no-unused-vars
+	$( '.userverification-pager-button-delete-selected' ).on( 'click', function ( evt ) {
+		// eslint-disable-next-line no-alert
+		if ( !confirm( mw.msg( 'userverification-module-delete-alert' ) ) ) {
+			return false;
+		}
+
+		// eslint-disable-next-line no-alert
+		if ( !confirm( mw.msg( 'userverification-module-delete-alert-b' ) ) ) {
+			return false;
+		}
+	} );
+
 } );

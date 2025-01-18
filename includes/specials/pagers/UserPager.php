@@ -35,6 +35,7 @@ use Linker;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\MediaWikiServices;
 use MWException;
+use OOUI;
 use ParserOutput;
 use SpecialPageClass;
 use TablePager;
@@ -142,7 +143,7 @@ class UserPager extends TablePager {
 					$msg = ( in_array( 'autoconfirmed', $userGroups ) ? 'yes' : 'no' );
 					$formatted = $this->msg( "userverification-pager-field-$msg" )->text();
 				} else {
-					$formatted = $this->msg( "userverification-pager-field-no-valid-user" )->text();
+					$formatted = $this->msg( 'userverification-pager-field-no-valid-user' )->text();
 				}
 				break;
 
@@ -160,6 +161,11 @@ class UserPager extends TablePager {
 				break;
 
 			case 'user_name':
+				$title_ = SpecialPageClass::getTitleFor( 'Contribs', $row->user_name );
+				$link = $row->user_name;
+				$query = [];
+				$formatted = Linker::link( $title_, $link, [], $query );
+				break;
 			case 'user_email':
 			case 'user_real_name':
 			case 'user_email_authenticated':
@@ -172,7 +178,21 @@ class UserPager extends TablePager {
 				$link = '<span class="mw-ui-button mw-ui-progressive">edit</span>';
 				$title_ = SpecialPageClass::getTitleFor( 'UserVerificationList', $row->user_id );
 				$query = [];
-				$formatted = Linker::link( $title_, $link, [], $query );
+
+				$formatted .= '<span style="white-space:nowrap">';
+				$formatted .= Linker::link( $title_, $link, [ 'style' => 'padding-right: 4px' ], $query );
+
+				$title_ = SpecialPageClass::getTitleFor( 'UserVerificationList' );
+				$formatted .= new OOUI\ButtonWidget(
+					[
+						'label' => $this->msg( 'userverification-pager-button-delete-selected' )->text(),
+						'infusable' => true,
+						'flags' => [ 'progressive', 'destructive' ],
+						'classes' => [ 'userverification-pager-button-delete-selected' ],
+						'href' => wfAppendQuery( $title_->getLocalURL(),
+							[ 'delete' => $row->user_id ] )
+					] );
+					$formatted .= '</span>';
 				break;
 
 			default:

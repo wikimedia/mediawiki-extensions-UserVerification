@@ -84,6 +84,11 @@ class SpecialUserVerificationList extends SpecialPage {
 
 		$out->enableOOUI();
 
+		$deleteUser = $request->getVal( 'delete' );
+		if ( !empty( $deleteUser ) ) {
+			$this->deleteUser( $deleteUser );
+		}
+
 		$filename = $request->getVal( 'file' );
 		if ( !empty( $filename ) ) {
 			$this->displayFile( $filename );
@@ -133,6 +138,19 @@ class SpecialUserVerificationList extends SpecialPage {
 		$out->addHTML( $form );
 		$out->addHTML( '<br />' );
 
+		if ( \UserVerification::canDeleteUsers( $user ) ) {
+			$out->addHTML( new OOUI\ButtonWidget(
+				[
+					'label' => $this->msg( 'userverification-special-manage-toggle-delete-user' )->text(),
+					'infusable' => true,
+					'flags' => [ 'progressive' ],
+					'id' => 'userverification-special-manage-toggle-delete-user',
+				]
+			) );
+			$out->addHTML( '<br />' );
+			$out->addHTML( '<br />' );
+		}
+
 		if ( $pager->getNumRows() ) {
 			$out->addParserOutputContent( $pager->getFullOutput() );
 			// $out->addHTML(
@@ -143,6 +161,14 @@ class SpecialUserVerificationList extends SpecialPage {
 		} else {
 			$out->addWikiMsg( 'userverification-special-browse-table-empty' );
 		}
+	}
+
+	/**
+	 * @param int $userId
+	 * @return bool
+	 */
+	protected function deleteUser( $userId ) {
+		return \UserVerification::deleteUsers( $this->getUser(), [ $userId ] );
 	}
 
 	/**

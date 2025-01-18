@@ -31,6 +31,12 @@
 	"userverification-pager-header-user_editcount": "A label message",
 	"userverification-pager-header-autoconfirmed": "A label message",
 	"userverification-pager-header-verification": "A label message",
+
+	"userverification-special-manage-toggle-delete-user": "A label message",
+	"userverification-pager-button-delete-selected": "A label message",
+	"userverification-module-delete-alert": "A label message",
+	"userverification-module-delete-alert-b": "A label message",
+
 	"userverification-special-manage-no-keys": "A label message",
 	"userverification-createkeys-password-error-length": "A label message",
 	"userverification-createkeys-password-error-digit": "A label message",

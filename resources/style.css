@@ -11,3 +11,7 @@
 	font-weight: bold;
 	margin-bottom: 12px;
 }
+
+.userverification-pager-button-delete-selected {
+	display: none;
+}

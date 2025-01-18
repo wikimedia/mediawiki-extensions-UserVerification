@@ -37,6 +37,10 @@
 	"userverification-pager-header-user_editcount": "editcount",
 	"userverification-pager-header-autoconfirmed": "autoconfirmed",
 	"userverification-pager-header-verification": "verification",
+	"userverification-special-manage-toggle-delete-user": "toggle delete users",
+	"userverification-pager-button-delete-selected": "delete user",
+	"userverification-module-delete-alert": "Are you sure you want to permanently delete this user and all their contributions ?",
+	"userverification-module-delete-alert-b": "Please confirm again, as you understand this should be performed only for bot-SPAM users. (There won't be a third alert)",
 
 	"userverification-special-manage-no-keys": "Keys are not set. Please run the maintenance script <pre>php extensions/UserVerification/maintenance/CreateKeys.php --password [your password]</pre> to create asymmetric keys at site level. Never store this password on the server.",
 

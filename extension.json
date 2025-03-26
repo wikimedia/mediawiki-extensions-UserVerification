@@ -6,7 +6,7 @@
 	"descriptionmsg": "userverification-extension-desc",
 	"license-name": "GPL-2.0-or-later",
 	"requires": {
-		"MediaWiki": ">= 1.35.3"
+		"MediaWiki": ">= 1.38.0"
 	},
 	"MessagesDirs": {
 		"UserVerification": [

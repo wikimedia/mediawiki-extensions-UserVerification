@@ -302,7 +302,7 @@ class SpecialUserVerificationList extends SpecialPage {
 		$htmlForm
 			->setWrapperLegendMsg( 'userverification-special-manage-userverification-form-manage-legend' )
 			->setSubmitText( $this->msg( 'userverification-special-manage-userverification-form-manage-submit' )->text() )
-			->addHeaderText( $this->msg( 'userverification-special-manage-userverification-form-manage-header' )->text() );
+			->addHeaderHtml( $this->msg( 'userverification-special-manage-userverification-form-manage-header' )->parse() );
 
 		$htmlForm->prepareForm();
 		$result = $htmlForm->tryAuthorizedSubmit();
@@ -357,7 +357,7 @@ class SpecialUserVerificationList extends SpecialPage {
 		$htmlForm
 			->setWrapperLegendMsg( 'userverification-special-manage-userverification-form-manage-legend' )
 			->setSubmitText( $this->msg( 'userverification-special-manage-userverification-form-manage-submit' )->text() )
-			->addHeaderText( $this->msg( 'userverification-special-manage-userverification-form-manage-header' )->text() );
+			->addHeaderHtml( $this->msg( 'userverification-special-manage-userverification-form-manage-header' )->parse() );
 
 		$htmlForm->prepareForm();
 		$result = $htmlForm->tryAuthorizedSubmit();

@@ -289,7 +289,7 @@ class SpecialUserVerification extends SpecialPage {
 			->setMethod( 'post' )
 			->setWrapperLegendMsg( 'userverification-special-manage-userverification-form-legend' )
 			->setSubmitText( $this->msg( 'userverification-special-manage-userverification-form-submit' )->text() );
-			// ->addHeaderText( $this->msg( 'userverification-special-manage-userverification-form-header' )->text() );
+			// ->addHeaderHtml( $this->msg( 'userverification-special-manage-userverification-form-header' )->parse() );
 
 		$htmlForm->prepareForm();
 		$result = $htmlForm->tryAuthorizedSubmit();

@@ -42,7 +42,7 @@ use TablePager;
 
 class UserPager extends TablePager {
 
-	/** @var request */
+	/** @var WebRequest */
 	private $request;
 
 	/** @var parentClass */

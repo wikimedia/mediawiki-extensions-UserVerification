@@ -22,11 +22,12 @@
  * @copyright Copyright ©2023, https://wikisphere.org
  */
 
+use MediaWiki\Extension\UserVerification\Aliases\Html as HtmlClass;
 use MediaWiki\MediaWikiServices;
 
 class SpecialUserVerificationList extends SpecialPage {
 
-	/** @var Title */
+	/** @var Title|MediaWiki\Title\Title */
 	public $localTitle;
 
 	/** @var int */
@@ -34,6 +35,12 @@ class SpecialUserVerificationList extends SpecialPage {
 
 	/** @var bool */
 	public $wrongPassord;
+
+	/** @var WebRequest */
+	public $request;
+
+	/** @var User|MediaWiki\User */
+	public $user;
 
 	/**
 	 * @inheritDoc
@@ -72,7 +79,7 @@ class SpecialUserVerificationList extends SpecialPage {
 		$keys = \UserVerification::getKeys();
 
 		if ( empty( $keys ) ) {
-			$out->addHTML( Html::warningBox( $this->msg( 'userverification-special-manage-no-keys' )->parse(), [] ) );
+			$out->addHTML( HtmlClass::warningBox( $this->msg( 'userverification-special-manage-no-keys' )->parse(), [] ) );
 			return;
 		}
 
@@ -205,32 +212,33 @@ class SpecialUserVerificationList extends SpecialPage {
 		$user = $userIdentityLookup->getUserIdentityByUserId( $this->userId );
 
 		if ( !$user ) {
-			$out->addHTML( Html::Element( 'h3', [], $this->msg( 'userverification-pager-field-no-valid-user' )->text() ) );
+			$out->addHTML( HtmlClass::Element( 'h3', [], $this->msg( 'userverification-pager-field-no-valid-user' )->text() ) );
 			return;
 		}
 
 		if ( empty( $data ) ) {
-			$out->addHTML( Html::Element( 'h3', [], $user->getName() ) );
+			$out->addHTML( HtmlClass::Element( 'h3', [], $user->getName() ) );
 			$out->addWikiMsg( 'userverification-special-manage-userverification-nodata' );
 
 			return;
 		}
 
 		$table = '';
-		$table = Html::Element( 'h3', [], $user->getName() );
-		$table .= Html::openElement( 'table', [ 'style' => 'width:100%', 'class' => 'wikitable' ] );
-		$table .= Html::Element( 'caption', [], $this->msg( 'userverification-special-manage-userverification-table-caption' )->text() );
+		$table = HtmlClass::Element( 'h3', [], $user->getName() );
+		$table .= HtmlClass::openElement( 'table', [ 'style' => 'width:100%', 'class' => 'wikitable' ] );
+		$table .= HtmlClass::Element( 'caption', [],
+			$this->msg( 'userverification-special-manage-userverification-table-caption' )->text() );
 
 		$data = json_decode( $data, true );
 		foreach ( $data as $key => $value ) {
 			[ $type, $value ] = $value;
 
-			$table .= Html::openElement( 'tr' );
-			$table .= Html::Element( 'th', [ 'style' => 'width:1%;text-align:left;white-space:nowrap' ],
+			$table .= HtmlClass::openElement( 'tr' );
+			$table .= HtmlClass::Element( 'th', [ 'style' => 'width:1%;text-align:left;white-space:nowrap' ],
 				str_replace( '_', ' ', $key ) );
 
 			if ( $type !== 'file' ) {
-				$table .= Html::Element( 'td', [], $value );
+				$table .= HtmlClass::Element( 'td', [], $value );
 
 			} else {
 				// $link = '<span class="mw-ui-button mw-ui-progressive">view</span>';
@@ -248,13 +256,13 @@ class SpecialUserVerificationList extends SpecialPage {
 					'href' => $url,
 				] );
 
-				$table .= Html::RawElement( 'td', [], $value );
+				$table .= HtmlClass::RawElement( 'td', [], $value );
 			}
-			$table .= Html::closeElement( 'tr' );
+			$table .= HtmlClass::closeElement( 'tr' );
 		}
 
-		$table .= Html::closeElement( 'table' );
-		// $out->addHTML( Html::noticeBox( $table, [] ) );
+		$table .= HtmlClass::closeElement( 'table' );
+		// $out->addHTML( HtmlClass::noticeBox( $table, [] ) );
 		$out->addHTML( $table );
 	}
 

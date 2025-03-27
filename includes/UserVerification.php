@@ -24,6 +24,7 @@
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 use Defuse\Crypto\KeyProtectedByPassword;
+use MediaWiki\Extension\UserVerification\Aliases\Title as TitleClass;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 
@@ -89,7 +90,7 @@ class UserVerification {
 			return 'no query';
 		}
 
-		$title_ = Title::newFromText( $values[0] );
+		$title_ = TitleClass::newFromText( $values[0] );
 		$text = ( !empty( $values[1] ) ? $values[1]
 			: $title_->getText() );
 

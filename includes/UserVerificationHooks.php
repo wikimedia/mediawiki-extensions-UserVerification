@@ -76,7 +76,7 @@ class UserVerificationHooks {
 	}
 
 	/**
-	 * @param Title &$title
+	 * @param Title|MediaWiki\Title\Title &$title
 	 * @param null $unused
 	 * @param OutputPage $output
 	 * @param User $user
@@ -214,7 +214,7 @@ class UserVerificationHooks {
 	}
 
 	/**
-	 * @param Title $title
+	 * @param Title|MediaWiki\Title\Title $title
 	 * @param User $user
 	 * @param string $action
 	 * @param array|string|MessageSpecifier &$result User

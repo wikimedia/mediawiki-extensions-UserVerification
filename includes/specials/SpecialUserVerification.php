@@ -24,15 +24,17 @@
 
 include_once __DIR__ . '/Countries.php';
 
+use MediaWiki\Extension\UserVerification\Aliases\Html as HtmlClass;
+
 class SpecialUserVerification extends SpecialPage {
 
-	/** @var User */
+	/** @var User|MediaWiki\User */
 	public $user;
 
-	/** @var Request */
+	/** @var WebRequest */
 	public $request;
 
-	/** @var Title */
+	/** @var Title|MediaWiki\Title\Title */
 	public $localTitle;
 
 	/** @var array */
@@ -88,7 +90,7 @@ class SpecialUserVerification extends SpecialPage {
 			);
 		}
 
-		$out->addHTML( Html::Element( 'h3', [], $this->user->getName() ) );
+		$out->addHTML( HtmlClass::Element( 'h3', [], $this->user->getName() ) );
 
 		if ( !$row || $row->status !== 'pending' ) {
 			$out->addHTML( $this->userVerificationForm( $request, $data ) );

@@ -15,6 +15,7 @@
 	},
 	"callback": "UserVerificationHooks::initExtension",
 	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\UserVerification\\Aliases\\": "includes/aliases/",
 		"MediaWiki\\Extension\\UserVerification\\Pagers\\": "includes/specials/pagers/"
 	},
 	"AutoloadClasses": {

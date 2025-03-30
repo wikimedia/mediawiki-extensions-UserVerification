@@ -54,7 +54,7 @@ class UserVerification {
 		$parserOutput = $parser->getOutput();
 
 /*
-{{#querylink: pagename
+{{#userverificationquerylink: pagename
 |label
 |class=
 |class-attr-name=class

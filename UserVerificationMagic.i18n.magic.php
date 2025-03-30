@@ -29,5 +29,5 @@ $magicWords = [];
 // '0' stands for 'case insensitive'
 
 $magicWords['en'] = [
-	'userverificationquerylink' => [ 0, 'userverificationquerylink', 'querylink' ],
+	'userverificationquerylink' => [ 0, 'userverificationquerylink' ],
 ];

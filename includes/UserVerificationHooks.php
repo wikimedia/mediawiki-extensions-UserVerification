@@ -260,7 +260,7 @@ class UserVerificationHooks {
 				[ 'return' . $title->getFullText() ] );
 
 			$result = [ 'userverifiedtoedittext', $status !== 'pending' ?
-				'{{#querylink:Special:UserVerification|continue|return={{FULLPAGENAME}}}}'
+				'{{#userverificationquerylink:Special:UserVerification|continue|return={{FULLPAGENAME}}}}'
 				: wfMessage( 'userverifiedtoreadtext-pending' )->text()
 				];
 			return false;

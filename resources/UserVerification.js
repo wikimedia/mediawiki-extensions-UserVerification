@@ -19,14 +19,14 @@
  * @copyright Copyright © 2025, https://wikisphere.org
  */
 
-$( function () {
+$( () => {
 	// eslint-disable-next-line no-unused-vars
-	$( '#userverification-special-manage-toggle-delete-user' ).on( 'click', function ( evt ) {
+	$( '#userverification-special-manage-toggle-delete-user' ).on( 'click', ( evt ) => {
 		$( '.userverification-pager-button-delete-selected' ).toggle();
 	} );
 
 	// eslint-disable-next-line no-unused-vars
-	$( '.userverification-pager-button-delete-selected' ).on( 'click', function ( evt ) {
+	$( '.userverification-pager-button-delete-selected' ).on( 'click', ( evt ) => {
 		// eslint-disable-next-line no-alert
 		if ( !confirm( mw.msg( 'userverification-module-delete-alert' ) ) ) {
 			return false;

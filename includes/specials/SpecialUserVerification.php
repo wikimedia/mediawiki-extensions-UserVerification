@@ -60,13 +60,12 @@ class SpecialUserVerification extends SpecialPage {
 		$out = $this->getOutput();
 
 		\UserVerification::disableClientCache( $out );
+		\UserVerification::addJsConfigVars( $out, $user );
 
 		$out->addModuleStyles( 'mediawiki.special' );
 		$out->addModules( [ 'ext.UserVerification' ] );
 		$this->addHelpLink( 'Extension:UserVerification' );
 		$out->enableOOUI();
-
-		\UserVerification::addJsConfigVars( $out, $user );
 
 		$request = $this->getRequest();
 		$this->request = $request;

@@ -182,6 +182,8 @@ class UserVerificationHooks {
 			] ) . '</div>';
 
 			$out = $skin->getOutput();
+			\UserVerification::addJsConfigVars( $out, $user );
+
 			$out->addModules( [ 'ext.UserVerification' ] );
 
 			return false;

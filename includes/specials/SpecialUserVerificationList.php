@@ -71,7 +71,7 @@ class SpecialUserVerificationList extends SpecialPage {
 		$this->outputHeader();
 
 		$out = $this->getOutput();
-		\UserVerification::disableClientCache( $out );
+		$out->disableClientCache();
 		\UserVerification::addJsConfigVars( $out, $user );
 
 		$out->addModuleStyles( 'mediawiki.special' );

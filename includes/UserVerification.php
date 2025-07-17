@@ -649,18 +649,6 @@ class UserVerification {
 	}
 
 	/**
-	 * @param OutputPage $out
-	 */
-	public static function disableClientCache( $out ) {
-		if ( method_exists( $out, 'disableClientCache' ) ) {
-			// MW 1.38+
-			$out->disableClientCache();
-		} else {
-			$out->enableClientCache( false );
-		}
-	}
-
-	/**
 	 * @param int $db
 	 * @return \Wikimedia\Rdbms\DBConnRef
 	 */

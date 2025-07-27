@@ -221,8 +221,10 @@ class UserPager extends TablePager {
 			$services = MediaWikiServices::getInstance();
 			$userIdentityLookup = $services->getUserIdentityLookup();
 			$user = $userIdentityLookup->getUserIdentityByName( $username );
-			$user_id = $user->getId();
-			$conds[ 'user_alias.user_id' ] = $user_id;
+			if ( $user ) {
+				$user_id = $user->getId();
+				$conds[ 'user_alias.user_id' ] = $user_id;
+			}
 		}
 
 		$status = $this->request->getVal( 'status' );

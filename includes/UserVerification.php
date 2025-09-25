@@ -24,6 +24,7 @@
 use Defuse\Crypto\Crypto;
 use Defuse\Crypto\Key;
 use Defuse\Crypto\KeyProtectedByPassword;
+use MediaWiki\Extension\UserVerification\Aliases\Linker as LinkerClass;
 use MediaWiki\Extension\UserVerification\Aliases\Title as TitleClass;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
@@ -101,7 +102,7 @@ class UserVerification {
 
 		// *** alternatively use $linkRenderer->makePreloadedLink
 		// or $GLOBALS['wgArticlePath'] and wfAppendQuery
-		$ret = Linker::link( $title_, $text, $attr, $query );
+		$ret = LinkerClass::link( $title_, $text, $attr, $query );
 
 		return [
 			$ret,

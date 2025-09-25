@@ -29,6 +29,6 @@ if ( class_exists( 'Html' ) ) {
 	}
 } else {
   	// phpcs:ignore Generic.Classes.DuplicateClassName.Found
-	class Html extends \Mediawiki\Html\Html {
+	class Html extends \MediaWiki\Html\Html {
 	}
 }

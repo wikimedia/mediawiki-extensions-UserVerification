@@ -23,7 +23,9 @@
  */
 
 use MediaWiki\Extension\UserVerification\Aliases\Html as HtmlClass;
+// use MediaWiki\Extension\UserVerification\Aliases\Linker as LinkerClass;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Parser\ParserOptions;
 
 class SpecialUserVerificationList extends SpecialPage {
 
@@ -159,7 +161,10 @@ class SpecialUserVerificationList extends SpecialPage {
 		}
 
 		if ( $pager->getNumRows() ) {
-			$out->addParserOutputContent( $pager->getFullOutput() );
+			$out->addParserOutputContent(
+				$pager->getFullOutput(),
+				ParserOptions::newFromContext( $this->getContext() )
+			);
 			// $out->addHTML(
 			// 	$pager->getBody() .
 			// 	$pager->getNavigationBar()
@@ -244,7 +249,7 @@ class SpecialUserVerificationList extends SpecialPage {
 				// $link = '<span class="mw-ui-button mw-ui-progressive">view</span>';
 				$title_ = SpecialPage::getTitleFor( 'UserVerificationList', $this->userId );
 				// $query = [ 'file' => $value ];
-				// $value = Linker::link( $title_, $link, [], $query );
+				// $value = LinkerClass::link( $title_, $link, [], $query );
 
 				$url = wfAppendQuery( $title_->getLocalURL(),
 					[ 'file' => $value ]

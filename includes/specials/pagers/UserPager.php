@@ -31,7 +31,7 @@ if ( class_exists( 'MediaWiki\SpecialPage\SpecialPage', false ) ) {
 	class_alias( 'SpecialPage', 'SpecialPageClass' );
 }
 
-use Linker;
+use MediaWiki\Extension\UserVerification\Aliases\Linker as LinkerClass;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\MediaWikiServices;
 use MWException;
@@ -164,7 +164,7 @@ class UserPager extends TablePager {
 				$title_ = SpecialPageClass::getTitleFor( 'Contribs', $row->user_name );
 				$link = $row->user_name;
 				$query = [];
-				$formatted = Linker::link( $title_, $link, [], $query );
+				$formatted = LinkerClass::link( $title_, $link, [], $query );
 				break;
 			case 'user_email':
 			case 'user_real_name':
@@ -180,7 +180,7 @@ class UserPager extends TablePager {
 				$query = [];
 
 				$formatted .= '<span style="white-space:nowrap">';
-				$formatted .= Linker::link( $title_, $link, [ 'style' => 'padding-right: 4px' ], $query );
+				$formatted .= LinkerClass::link( $title_, $link, [ 'style' => 'padding-right: 4px' ], $query );
 
 				$title_ = SpecialPageClass::getTitleFor( 'UserVerificationList' );
 				$formatted .= new OOUI\ButtonWidget(

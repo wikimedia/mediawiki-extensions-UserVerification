@@ -24,11 +24,11 @@
 
 namespace MediaWiki\Extension\UserVerification\Aliases;
 
-if ( class_exists( 'Title' ) ) {
-	class Title extends \Title {
+if ( class_exists( 'Linker' ) ) {
+	class Linker extends \Linker {
 	}
 } else {
 	// phpcs:ignore Generic.Classes.DuplicateClassName.Found
-	class Title extends \MediaWiki\Title\Title {
+	class Linker extends \MediaWiki\Linker\Linker {
 	}
 }

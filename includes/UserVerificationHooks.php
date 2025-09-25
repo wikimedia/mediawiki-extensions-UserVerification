@@ -21,6 +21,8 @@
  * @copyright Copyright ©2024, https://wikisphere.org
  */
 
+use MediaWiki\Extension\UserVerification\Aliases\Linker as LinkerClass;
+
 class UserVerificationHooks {
 
 	/**
@@ -164,11 +166,11 @@ class UserVerificationHooks {
 				$titleReturn = SpecialPage::getTitleFor( 'ConfirmEmail' );
 				$query_ = [ 'return' => $titleReturn->getFullText() ];
 				$title_ = SpecialPage::getTitleFor( 'ChangeEmail' );
-				$link = Linker::link( $title_, $labelHtml, [], $query_ );
+				$link = LinkerClass::link( $title_, $labelHtml, [], $query_ );
 			} else {
 				$query_ = [ 'return' => $title->getFullText() ];
 				$title_ = SpecialPage::getTitleFor( 'ConfirmEmail' );
-				$link = Linker::link( $title_, $labelHtml, [], $query_ );
+				$link = LinkerClass::link( $title_, $labelHtml, [], $query_ );
 			}
 			$siteNotice = '<div class="userverification-sitenotice">'
 				// UserVerification::addHeaditem is used to retrieve

@@ -14,8 +14,8 @@
 	"apihelp-userverification-check-latest-version-summary": "userverification check latest version summary",
 	"apihelp-userverification-check-latest-version-example-1": "userverification check latest version example-1",
 
-	"right-userverification-userverified": "verified user (UserVerification)",
-	"action-userverification-userverified": "verified user (UserVerification)",
+	"right-userverification-userverified": "Be treated as a verified user (UserVerification)",
+	"action-userverification-userverified": "become a verified user (UserVerification)",
 
 	"group-userverification-admin": "UserVerification admin",
 	"group-userverification-admin-member": "UserVerification admin",
@@ -24,8 +24,8 @@
 	"group-userverification-do-not-require-verification": "Do not require verification (UserVerification)",
 	"group-userverification-do-not-require-verification-member": "Do not require verification (UserVerification)",
 
-	"right-userverification-can-manage-verification": "Can mananage verification (UserVerification)",
-	"action-userverification-can-manage-verification": "can mananage verification (UserVerification)",
+	"right-userverification-can-manage-verification": "Manage verification (UserVerification)",
+	"action-userverification-can-manage-verification": "manage verification (UserVerification)",
 
 	"userverification-password-reset-user-does-not-exist": "user does not exist",
 	"userverification-pager-header-actions": "actions",

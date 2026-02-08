@@ -26,7 +26,7 @@ include_once __DIR__ . '/Countries.php';
 
 use MediaWiki\Extension\UserVerification\Aliases\Html as HtmlClass;
 
-class SpecialUserVerification extends SpecialPage {
+class SpecialUserVerification extends UnlistedSpecialPage {
 
 	/** @var User|MediaWiki\User */
 	public $user;
@@ -43,9 +43,8 @@ class SpecialUserVerification extends SpecialPage {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct( $name = 'UserVerification' ) {
-		$listed = false;
-		parent::__construct( 'UserVerification', '', $listed );
+	public function __construct() {
+		parent::__construct( 'UserVerification' );
 	}
 
 	/**

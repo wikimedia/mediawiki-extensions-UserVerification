@@ -47,9 +47,8 @@ class SpecialUserVerificationList extends SpecialPage {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct( $name = 'UserVerificationList' ) {
-		$listed = true;
-		parent::__construct( 'UserVerificationList', '', $listed );
+	public function __construct() {
+		parent::__construct( 'UserVerificationList' );
 	}
 
 	/**

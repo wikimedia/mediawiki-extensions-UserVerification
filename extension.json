@@ -23,6 +23,7 @@
 		"UserVerification": "includes/UserVerification.php",
 		"SpecialUserVerification": "includes/specials/SpecialUserVerification.php",
 		"SpecialUserVerificationList": "includes/specials/SpecialUserVerificationList.php",
+		"PasswordValidator": "maintenance/PasswordValidator.php",
 		"UserVerificationApiCheckLatestVersion": "includes/api/UserVerificationApiCheckLatestVersion.php"
 	},
 	"GroupPermissions": {
@@ -125,5 +126,6 @@
 			"value": []
 		}
 	},
+	"load_composer_autoloader": true,
 	"manifest_version": 2
 }

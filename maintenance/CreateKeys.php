@@ -26,11 +26,6 @@ if ( $IP === false ) {
 	$IP = __DIR__ . '/../../..';
 }
 require_once "$IP/maintenance/Maintenance.php";
-include_once __DIR__ . '/PasswordValidator.php';
-
-if ( is_readable( __DIR__ . '/../vendor/autoload.php' ) ) {
-	include_once __DIR__ . '/../vendor/autoload.php';
-}
 
 use Defuse\Crypto\KeyProtectedByPassword;
 
